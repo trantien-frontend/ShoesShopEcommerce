@@ -1,12 +1,11 @@
 package com.project.shoesshopecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -23,16 +22,27 @@ public class Product {
 
     String name;
 
-    BigDecimal price;
+    double price;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @Column(name = "discount")
+    double discount;
+
+    @Column(name = "promo_price")
+    double promoPrice;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     Category category;
 
-    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    @JoinColumn(name = "product_type_id")
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "productType_id")
     ProductType productType;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    List<ImageProductEntity> images = new ArrayList<>();
+    @Column(name = "create_at")
+    Date createdAt;
+
+    @Column(name = "updated_at")
+    Date updatedAt;
 }
