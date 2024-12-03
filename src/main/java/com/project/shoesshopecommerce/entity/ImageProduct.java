@@ -1,5 +1,6 @@
 package com.project.shoesshopecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -16,6 +17,7 @@ public class ImageProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     Product product;
